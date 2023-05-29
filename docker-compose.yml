@@ -1,17 +1,17 @@
-version: '3.4'
+version: '3.4.0'
 
 volumes:
   postgres-data:
 
 services:
   compreface-postgres-db:
-    image: exadel/compreface-postgres-db:1.1.0
+    image: "exadel/compreface-postgres-db:1.1.0"
     restart: always
     container_name: "compreface-postgres-db"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=frs
+      - POSTGRES_USER="postgres"
+      - POSTGRES_PASSWORD="postgres"
+      - POSTGRES_DB="frs"
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
@@ -20,16 +20,16 @@ services:
     image: exadel/compreface-admin:1.1.0
     container_name: "compreface-admin"
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_URL=jdbc:postgresql://compreface-postgres-db:5432/frs
+      - POSTGRES_USER="postgres"
+      - POSTGRES_PASSWORD="postgres"
+      - POSTGRES_URL="jdbc:postgresql://compreface-postgres-db:5432/frs"
       - SPRING_PROFILES_ACTIVE=dev
       - ENABLE_EMAIL_SERVER=false
-      - EMAIL_HOST=smtp.gmail.com
-      - EMAIL_USERNAME=
-      - EMAIL_FROM=
-      - EMAIL_PASSWORD=
-      - ADMIN_JAVA_OPTS=-Xmx1g
+      - EMAIL_HOST="smtp.gmail.com"
+      - EMAIL_USERNAME=""
+      - EMAIL_FROM=""
+      - EMAIL_PASSWORD=""
+      - ADMIN_JAVA_OPTS="-Xmx1g"
       - MAX_FILE_SIZE=5MB
       - MAX_REQUEST_SIZE=10MB
     depends_on:
@@ -38,25 +38,25 @@ services:
 
   compreface-api:
     restart: always
-    image: exadel/compreface-api:1.1.0
+    image: "exadel/compreface-api:1.1.0"
     container_name: "compreface-api"
     depends_on:
       - compreface-postgres-db
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_URL=jdbc:postgresql://compreface-postgres-db:5432/frs
+      - POSTGRES_USER="postgres"
+      - POSTGRES_PASSWORD="postgres"
+      - POSTGRES_URL="jdbc:postgresql://compreface-postgres-db:5432/frs"
       - SPRING_PROFILES_ACTIVE=dev
-      - API_JAVA_OPTS=-Xmx4g
+      - API_JAVA_OPTS="-Xmx4g"
       - SAVE_IMAGES_TO_DB=true
       - MAX_FILE_SIZE=5MB
       - MAX_REQUEST_SIZE=10MB
-      - CONNECTION_TIMEOUT=10000:-10000
-      - READ_TIMEOUT=60000:-60000
+      - CONNECTION_TIMEOUT=10000
+      - READ_TIMEOUT=60000
 
   compreface-fe:
     restart: always
-    image: exadel/compreface-fe:$1.1.0
+    image: "exadel/compreface-fe:1.1.0"
     container_name: "compreface-ui"
     ports:
       - "8000:80"
@@ -64,7 +64,7 @@ services:
       - compreface-api
       - compreface-admin
     environment:
-      - CLIENT_MAX_BODY_SIZE=10M
+      - CLIENT_MAX_BODY_SIZE=10MB
       - PROXY_READ_TIMEOUT=60000ms
       - PROXY_CONNECT_TIMEOUT=10000ms
 
