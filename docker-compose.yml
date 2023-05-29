@@ -26,9 +26,9 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
       - ENABLE_EMAIL_SERVER=false
       - EMAIL_HOST=smtp.gmail.com
-      - EMAIL_USERNAME=""
-      - EMAIL_FROM=""
-      - EMAIL_PASSWORD=""
+      - EMAIL_USERNAME=
+      - EMAIL_FROM=
+      - EMAIL_PASSWORD=
       - ADMIN_JAVA_OPTS=-Xmx1g
       - MAX_FILE_SIZE=5MB
       - MAX_REQUEST_SIZE=10MB
@@ -51,8 +51,8 @@ services:
       - SAVE_IMAGES_TO_DB=true
       - MAX_FILE_SIZE=5MB
       - MAX_REQUEST_SIZE=10MB
-      - CONNECTION_TIMEOUT=10000
-      - READ_TIMEOUT=60000
+      - CONNECTION_TIMEOUT=10000:-10000
+      - READ_TIMEOUT=60000:-60000
 
   compreface-fe:
     restart: always
