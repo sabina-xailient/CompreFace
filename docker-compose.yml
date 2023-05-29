@@ -1,40 +1,34 @@
-volumes:
-  postgres-data:
-
-services:
-  compreface-postgres-db:
-    image: exadel/compreface-postgres-db:1.1.0
-    restart: always
-    container_name: "compreface-postgres-db"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-
-  compreface-admin:
-    restart: always
-    image: exadel/compreface-admin:1.1.0
-    container_name: "compreface-admin"
-    depends_on:
-      - compreface-postgres-db
-      - compreface-api
-
-  compreface-api:
-    restart: always
-    image: exadel/compreface-api:1.1.0
-    container_name: "compreface-api"
-    depends_on:
-      - compreface-postgres-db
-
-  compreface-fe:
-    restart: always
-    image: exadel/compreface-fe:1.1.0
-    container_name: "compreface-ui"
-    ports:
-      - "8000:80"
-    depends_on:
-      - compreface-api
-      - compreface-admin
+version: "3"
+networks: 
+  ovms-bridge:
+    driver: bridge
+services: 
+  ovms-server:
+    image: jkalapati/ovms-server
+    hostname: ovms-server
+    ports: 
+      - "9000:9000"
+      - "9001:9001"
+    expose: 
+      - "9000"
+    networks: 
+      - ovms-bridge
+    command: [--port=9000, --model_name=face-detection, --model_path=/models, --shape=auto]
+    tty: 
+      true
       
-  compreface-core:
-    restart: always
-    image: exadel/compreface-core:1.1.0
-    container_name: "compreface-core"
+  ovms-client: 
+    image: jkalapati/ovms-client
+    environment: 
+      SERVER_NAME: ovms-server
+      GRPC_PORT: 9000
+    ports:
+      - "8000:8000"
+    networks: 
+      - ovms-bridge
+    depends_on:
+      - ovms-server
+    links: 
+      - ovms-server
+    tty:
+      true
