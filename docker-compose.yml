@@ -21,22 +21,6 @@ services:
     tty: 
       true
       
-  ovms-client: 
-    image: jkalapati/ovms-client
-    environment: 
-      SERVER_NAME: ovms-server
-      GRPC_PORT: 9000
-    ports:
-      - "8000:8000"
-    networks: 
-      - ovms-bridge
-    depends_on:
-      - ovms-server
-    links: 
-      - ovms-server
-    tty:
-      true
-      
   compreface-postgres-db:
     image: exadel/compreface-postgres-db:1.1.0
     restart: always
