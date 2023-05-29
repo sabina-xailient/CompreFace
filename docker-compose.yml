@@ -1,4 +1,8 @@
 version: "3"
+
+volumes:
+  postgres-data:
+  
 networks: 
   ovms-bridge:
     driver: bridge
@@ -32,3 +36,10 @@ services:
       - ovms-server
     tty:
       true
+      
+  compreface-postgres-db:
+    image: exadel/compreface-postgres-db:1.1.0
+    restart: always
+    container_name: "compreface-postgres-db"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
