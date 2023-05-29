@@ -51,8 +51,8 @@ services:
       - SAVE_IMAGES_TO_DB=true
       - MAX_FILE_SIZE=5MB
       - MAX_REQUEST_SIZE=10MB
-      - CONNECTION_TIMEOUT=${10000:-10000}
-      - READ_TIMEOUT=${60000:-60000}
+      - CONNECTION_TIMEOUT=10000
+      - READ_TIMEOUT=60000
 
   compreface-fe:
     restart: always
@@ -65,8 +65,8 @@ services:
       - compreface-admin
     environment:
       - CLIENT_MAX_BODY_SIZE=10M
-      - PROXY_READ_TIMEOUT=${60000:-60000}ms
-      - PROXY_CONNECT_TIMEOUT=${10000:-10000}ms
+      - PROXY_READ_TIMEOUT=60000ms
+      - PROXY_CONNECT_TIMEOUT=10000ms
 
   compreface-core:
     restart: always
@@ -75,5 +75,5 @@ services:
     environment:
       - ML_PORT=3000
       - IMG_LENGTH_LIMIT=640
-      - UWSGI_PROCESSES=${2:-2}
-      - UWSGI_THREADS=${1:-1}
+      - UWSGI_PROCESSES=2
+      - UWSGI_THREADS=1
