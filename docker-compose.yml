@@ -57,14 +57,32 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_URL=jdbc:postgresql://compreface-postgres-db:5432/frs
       - SPRING_PROFILES_ACTIVE=dev
-      - ENABLE_EMAIL_SERVER=true
+      - ENABLE_EMAIL_SERVER=false
       - EMAIL_HOST=smtp.gmail.com
       - EMAIL_USERNAME=
       - EMAIL_FROM=
       - EMAIL_PASSWORD=
-      - ADMIN_JAVA_OPTS=-Xmx4g
+      - ADMIN_JAVA_OPTS=-Xmx1g
       - MAX_FILE_SIZE=5MB
       - MAX_REQUEST_SIZE=10MB
     depends_on:
       - compreface-postgres-db
       - compreface-api
+      
+  compreface-api:
+    restart: always
+    image: exadel/compreface-api:1.1.0
+    container_name: "compreface-api"
+    depends_on:
+      - compreface-postgres-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_URL=jdbc:postgresql://compreface-postgres-db:5432/frs
+      - SPRING_PROFILES_ACTIVE=dev
+      - API_JAVA_OPTS=-Xmx4g
+      - SAVE_IMAGES_TO_DB=true
+      - MAX_FILE_SIZE=5MB
+      - MAX_REQUEST_SIZE=10MB
+      - CONNECTION_TIMEOUT=10000:-10000
+      - READ_TIMEOUT=60000:-60000
