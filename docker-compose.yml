@@ -5,58 +5,58 @@ volumes:
 
 services:
   compreface-postgres-db:
-    image: ${registry}compreface-postgres-db:${POSTGRES_VERSION}
+    image: exadel/compreface-postgres-db:1.1.0
     restart: always
     container_name: "compreface-postgres-db"
     environment:
-      - POSTGRES_USER=${postgres_username}
-      - POSTGRES_PASSWORD=${postgres_password}
-      - POSTGRES_DB=${postgres_db}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=frs
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
   compreface-admin:
     restart: always
-    image: ${registry}compreface-admin:${ADMIN_VERSION}
+    image: exadel/compreface-admin:1.1.0
     container_name: "compreface-admin"
     environment:
-      - POSTGRES_USER=${postgres_username}
-      - POSTGRES_PASSWORD=${postgres_password}
-      - POSTGRES_URL=jdbc:postgresql://${postgres_domain}:${postgres_port}/${postgres_db}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_URL=jdbc:postgresql://compreface-postgres-db:5432/frs
       - SPRING_PROFILES_ACTIVE=dev
-      - ENABLE_EMAIL_SERVER=${enable_email_server}
-      - EMAIL_HOST=${email_host}
-      - EMAIL_USERNAME=${email_username}
-      - EMAIL_FROM=${email_from}
-      - EMAIL_PASSWORD=${email_password}
-      - ADMIN_JAVA_OPTS=${compreface_admin_java_options}
-      - MAX_FILE_SIZE=${max_file_size}
-      - MAX_REQUEST_SIZE=${max_request_size}B
+      - ENABLE_EMAIL_SERVER=false
+      - EMAIL_HOST=smtp.gmail.com
+      - EMAIL_USERNAME=""
+      - EMAIL_FROM=""
+      - EMAIL_PASSWORD=""
+      - ADMIN_JAVA_OPTS=-Xmx1g
+      - MAX_FILE_SIZE=5MB
+      - MAX_REQUEST_SIZE=10MB
     depends_on:
       - compreface-postgres-db
       - compreface-api
 
   compreface-api:
     restart: always
-    image: ${registry}compreface-api:${API_VERSION}
+    image: exadel/compreface-api:1.1.0
     container_name: "compreface-api"
     depends_on:
       - compreface-postgres-db
     environment:
-      - POSTGRES_USER=${postgres_username}
-      - POSTGRES_PASSWORD=${postgres_password}
-      - POSTGRES_URL=jdbc:postgresql://${postgres_domain}:${postgres_port}/${postgres_db}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_URL=jdbc:postgresql://compreface-postgres-db:5432/frs
       - SPRING_PROFILES_ACTIVE=dev
-      - API_JAVA_OPTS=${compreface_api_java_options}
-      - SAVE_IMAGES_TO_DB=${save_images_to_db}
-      - MAX_FILE_SIZE=${max_file_size}
-      - MAX_REQUEST_SIZE=${max_request_size}B
-      - CONNECTION_TIMEOUT=${connection_timeout:-10000}
-      - READ_TIMEOUT=${read_timeout:-60000}
+      - API_JAVA_OPTS=-Xmx4g
+      - SAVE_IMAGES_TO_DB=true
+      - MAX_FILE_SIZE=5MB
+      - MAX_REQUEST_SIZE=10MB
+      - CONNECTION_TIMEOUT=${10000:-10000}
+      - READ_TIMEOUT=${60000:-60000}
 
   compreface-fe:
     restart: always
-    image: ${registry}compreface-fe:${FE_VERSION}
+    image: exadel/compreface-fe:$1.1.0
     container_name: "compreface-ui"
     ports:
       - "8000:80"
@@ -64,16 +64,16 @@ services:
       - compreface-api
       - compreface-admin
     environment:
-      - CLIENT_MAX_BODY_SIZE=${max_request_size}
-      - PROXY_READ_TIMEOUT=${read_timeout:-60000}ms
-      - PROXY_CONNECT_TIMEOUT=${connection_timeout:-10000}ms
+      - CLIENT_MAX_BODY_SIZE=10M
+      - PROXY_READ_TIMEOUT=${60000:-60000}ms
+      - PROXY_CONNECT_TIMEOUT=${10000:-10000}ms
 
   compreface-core:
     restart: always
-    image: ${registry}compreface-core:${CORE_VERSION}
+    image: exadel/compreface-core:1.1.0
     container_name: "compreface-core"
     environment:
       - ML_PORT=3000
-      - IMG_LENGTH_LIMIT=${max_detect_size}
-      - UWSGI_PROCESSES=${uwsgi_processes:-2}
-      - UWSGI_THREADS=${uwsgi_threads:-1}
+      - IMG_LENGTH_LIMIT=640
+      - UWSGI_PROCESSES=${2:-2}
+      - UWSGI_THREADS=${1:-1}
