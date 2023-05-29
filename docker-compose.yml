@@ -30,7 +30,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=frs
     volumes:
-      - postgres-data:chcon -R -t /var/lib/postgresql/data
+      - postgres-data:./var/lib/postgresql/data
       
   compreface-admin:
     restart: always
