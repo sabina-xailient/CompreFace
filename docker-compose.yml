@@ -40,7 +40,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - PGDATA=/pg-data
+      - PGDATA=/postgres-data
     ports:
       - "5432:5432"
     volumes:
