@@ -22,7 +22,7 @@ services:
       true
 
   database:
-    image: postgres:latest
+    image: exadel/compreface-postgres-db:1.1.0
     restart: always
     container_name: "compreface-postgres-db"
     environment:
