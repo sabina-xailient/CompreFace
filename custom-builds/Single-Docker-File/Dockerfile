@@ -2,7 +2,7 @@ ARG BASE_IMAGE=exadel/compreface-core:latest
 ARG VERSION=latest
 
 ################# init images start ####################
-FROM exadel/compreface-postgres-db:${VERSION} as postgres_db
+FROM postgres:${VERSION} as postgres_db
 FROM exadel/compreface-admin:${VERSION} as admin
 FROM exadel/compreface-api:${VERSION} as api
 FROM exadel/compreface-fe:${VERSION} as fe
