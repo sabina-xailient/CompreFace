@@ -73,7 +73,7 @@ E.g. it’s very difficult to stop or restart services one by one.
 To install CompreFace single docker container run command (you don’t need anything to download manually):
 
 ```commandline
-docker run -d --name=CompreFace -v compreface-db:/var/lib/postgresql/data -p 8000:80 exadel/compreface
+docker run -d --name=CompreFace -v compreface-db:/data/CompreFace/ -p 8000:80 exadel/compreface
 ```
 
 To use your own database for storing the data, specify these environment variables: POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_URL, EXTERNAL_DB, e.g.:
@@ -84,17 +84,17 @@ docker run -d --name=CompreFace -e "POSTGRES_URL=jdbc:postgresql://url:port/db_n
 
 To run the custom version of CompreFace, specify it in the end, e.g.:
 ```commandline
-docker run -d --name=CompreFace -v compreface-db:/var/lib/postgresql/data -p 8000:80 exadel/compreface:0.6.0
+docker run -d --name=CompreFace -v compreface-db:/data/CompreFace/ -p 8000:80 exadel/compreface:0.6.0
 ```
 
 To run custom builds you can use corresponding tags, e.g.:
 ```commandline
-docker run -d --name=CompreFace -v compreface-db:/var/lib/postgresql/data -p 8000:80 exadel/compreface:1.0.0-mobilenet
+docker run -d --name=CompreFace -v compreface-db:/data/CompreFace/ -p 8000:80 exadel/compreface:1.0.0-mobilenet
 ```
 
 To run version with GPU, you need to specify `--runtime=nvidia` and corresponding tag, e.g.:
 ```commandline
-docker run -d --name=CompreFace -v compreface-db:/var/lib/postgresql/data --runtime=nvidia -p 8000:80 exadel/compreface:1.0.0-arcface-r100-gpu 
+docker run -d --name=CompreFace -v compreface-db:/data/CompreFace/ --runtime=nvidia -p 8000:80 exadel/compreface:1.0.0-arcface-r100-gpu 
 ```
 
 ### Maintaining tips
@@ -111,12 +111,12 @@ docker run -d --name=CompreFace -v compreface-db:/var/lib/postgresql/data --runt
    This guarantees that if you stop or delete CompreFace docker containers, you won’t lose the data.  
 6. You can use environment variables from `docker-compose` version, e.g.  to set API server limit you can run:
 ```commandline
-docker run -d -e "API_JAVA_OPTS=-Xmx8g" --name=CompreFace -v compreface-db:/var/lib/postgresql/data -p 8000:80 exadel/compreface`
+docker run -d -e "API_JAVA_OPTS=-Xmx8g" --name=CompreFace -v compreface-db:/data/CompreFace/ -p 8000:80 exadel/compreface`
 ```
 7. By default, docker won’t restart CompreFace if it fails or after your restart your machine. 
    You can add this by adding `--restart=always` in run command:
 ```commandline
-docker run -d --name=CompreFace -v compreface-db:/var/lib/postgresql/data -p 8000:80 --restart=always exadel/compreface
+docker run -d --name=CompreFace -v compreface-db:/data/CompreFace/ -p 8000:80 --restart=always exadel/compreface
 ```
 8. If you want to stop CompreFace, run `docker stop CompreFace`.
 9. To start stopped Compreface, run `docker start CompreFace`.
