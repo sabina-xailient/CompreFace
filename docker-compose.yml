@@ -7,6 +7,20 @@ networks:
   ovms-bridge:
     driver: bridge
 services: 
+  ovms-server:	
+    image: jkalapati/ovms-server	
+    hostname: ovms-server	
+    ports: 	
+      - "9000:9000"	
+      - "9001:9001"	
+    expose: 	
+      - "9000"	
+    networks: 	
+      - ovms-bridge	
+    command: [--port=9000, --model_name=face-detection, --model_path=/models, --shape=auto]	
+    tty: 	
+      true
+      
   compreface-postgres-db:
     image: exadel/compreface-postgres-db:1.1.0
     restart: always
