@@ -17,7 +17,7 @@ services:
       - POSTGRES_PASSWORD=${postgres_password}
       - POSTGRES_DB=${postgres_db}
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/data/CompreFace/
 
   compreface-admin:
     image: ${registry}compreface-admin:${ADMIN_VERSION}
