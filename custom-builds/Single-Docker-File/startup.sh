@@ -9,8 +9,9 @@ if [ "$external_db" = false ] ; then
        cp -r /var/lib/postgresql/default/* $PGDATA
     fi
     # change permissions in case they were corrupted
-    chown -R postgres:postgres $PGDATA
-    chmod 700 $PGDATA
+    echo "PGDATA IS" $PGDATA
+    #chown -R postgres:postgres $PGDATA
+    #chmod 700 $PGDATA
 
     echo Starting compreface-postgres-db
     supervisorctl start compreface-postgres-db
