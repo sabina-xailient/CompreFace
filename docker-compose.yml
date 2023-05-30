@@ -3,7 +3,7 @@ version: "4"
 volumes:
   postgres-data:
   
-networks: 
+networks:
   ovms-bridge:
     driver: bridge
 services: 
