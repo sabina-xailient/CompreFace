@@ -32,7 +32,20 @@ services:
       - PGDATA=/postgres-data
     volumes:
       - postgres-data:/data/CompreFace/
-      
+
+  database:
+    image: postgres:latest
+    restart: always
+    container_name: "postgres-db"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/pg-data
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/pg-data
+
   compreface-admin:
     restart: always
     image: exadel/compreface-admin:1.1.0
