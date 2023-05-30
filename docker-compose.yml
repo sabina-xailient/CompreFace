@@ -2,6 +2,7 @@ version: "3"
 
 volumes:
   postgres-data:
+  pg-data:
   
 networks:
   ovms-bridge:
@@ -29,7 +30,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=frs
-      - PGDATA=/data/CompreFace/
+      - PGDATA=/postgres-data
     volumes:
       - postgres-data:/data/CompreFace/
 
@@ -40,11 +41,11 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - PGDATA=/postgres-data
+      - PGDATA=/pg-data
     ports:
       - "5432:5432"
     volumes:
-      - postgres-data:/pg-data
+      - pg-data:/pg-data
 
   compreface-admin:
     restart: always
