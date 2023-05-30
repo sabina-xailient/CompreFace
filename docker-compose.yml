@@ -20,26 +20,15 @@ services:
     command: [--port=9000, --model_name=face-detection, --model_path=/models, --shape=auto]
     tty: 
       true
-      
-  compreface-postgres-db:
-    image: exadel/compreface-postgres-db:1.1.0
+
+  database:
+    image: postgres:latest
     restart: always
     container_name: "compreface-postgres-db"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=frs
-      - PGDATA=/pg-data
-    volumes:
-      - pg-data:/pg-data
-
-  database:
-    image: postgres:latest
-    restart: always
-    container_name: "postgres-db"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
       - PGDATA=/pg-data
     ports:
       - "5432:5432"
