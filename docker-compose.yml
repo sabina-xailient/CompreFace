@@ -7,18 +7,18 @@ networks:
   ovms-bridge:
     driver: bridge
 services: 
-  ovms-server:	
-    image: jkalapati/ovms-server	
-    hostname: ovms-server	
-    ports: 	
-      - "9000:9000"	
-      - "9001:9001"	
-    expose: 	
-      - "9000"	
-    networks: 	
-      - ovms-bridge	
-    command: [--port=9000, --model_name=face-detection, --model_path=/models, --shape=auto]	
-    tty: 	
+  ovms-server:
+    image: jkalapati/ovms-server
+    hostname: ovms-server
+    ports: 
+      - "9000:9000"
+      - "9001:9001"
+    expose: 
+      - "9000"
+    networks: 
+      - ovms-bridge
+    command: [--port=9000, --model_name=face-detection, --model_path=/models, --shape=auto]
+    tty: 
       true
       
   compreface-postgres-db:
@@ -30,7 +30,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=frs
     volumes:
-      - postgres-data:/data/CompreFace/
+      - postgres-data:/var/lib/postgresql/somelocation
       
   compreface-admin:
     restart: always
