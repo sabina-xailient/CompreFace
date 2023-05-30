@@ -33,17 +33,6 @@ services:
       - PGDATA=/postgres-data
     volumes:
       - postgres-data:/data/CompreFace/
-
-  database:
-    image: postgres:latest
-    restart: always
-    container_name: "postgres-db"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - PGDATA=/pg-data
-    volumes:
-      - pg-data:/pg-data
       
   compreface-admin:
     restart: always
